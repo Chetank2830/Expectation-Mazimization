@@ -1,0 +1,7 @@
+m1 = [1,1]      
+m2 = [7,7]                                              
+cov1 = [[3, 2], [2, 3]]                                      
+cov2 = [[2, -1], [-1, 2]]
+x = np.random.multivariate_normal(m1, cov1, size=(200,))  # Generating 200 samples for each mean and covariance
+y = np.random.multivariate_normal(m2, cov2, size=(200,))
+d = np.concatenate((x, y), axis=0)
