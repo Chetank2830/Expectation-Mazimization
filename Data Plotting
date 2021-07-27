@@ -1,0 +1,38 @@
+#Taking Initial Guesses
+plt.figure(figsize=(10,10))                                 
+plt.scatter(d[:,0], d[:,1], marker='o')     
+plt.axis('equal')                                  
+plt.xlabel('X-Axis', fontsize=16)              
+plt.ylabel('Y-Axis', fontsize=16)                     
+plt.title('Ground Truth', fontsize=22)    
+plt.grid()            
+plt.show()
+
+#Plotting Initial Step
+m1 = random.choice(d)
+m2 = random.choice(d)
+cov1 = np.cov(np.transpose(d))
+cov2 = np.cov(np.transpose(d))
+pi = 0.5
+
+x1 = np.linspace(-4,11,200)  
+x2 = np.linspace(-4,11,200)
+X, Y = np.meshgrid(x1,x2) 
+
+Z1 = multivariate_normal(m1, cov1)  
+Z2 = multivariate_normal(m2, cov2)
+
+pos = np.empty(X.shape + (2,))                
+pos[:, :, 0] = X; pos[:, :, 1] = Y   
+
+plt.figure(figsize=(10,10))                                                          
+plt.scatter(d[:,0], d[:,1], marker='o')     
+plt.contour(X, Y, Z1.pdf(pos), colors="r" ,alpha = 0.5) 
+plt.contour(X, Y, Z2.pdf(pos), colors="b" ,alpha = 0.5) 
+plt.axis('equal')                                                                  
+plt.xlabel('X-Axis', fontsize=16)                                                  
+plt.ylabel('Y-Axis', fontsize=16)                                                  
+plt.title('Initial State', fontsize=22)                                            
+plt.grid()                                                                         
+plt.show()
+
