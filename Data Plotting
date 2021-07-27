@@ -9,8 +9,7 @@ plt.grid()
 plt.show()
 
 #Plotting Initial Step
-m1 = random.choice(d)
-m2 = random.choice(d)
+
 cov1 = np.cov(np.transpose(d))
 cov2 = np.cov(np.transpose(d))
 pi = 0.5
