@@ -1,0 +1,48 @@
+#Expectation step
+def Estep(lis1):
+    m1=lis1[0]
+    m2=lis1[1]
+    cov1=lis1[2]
+    cov2=lis1[3]
+    pi=lis1[4]
+    
+    pt2 = multivariate_normal.pdf(d, mean=m2, cov=cov2)
+    pt1 = multivariate_normal.pdf(d, mean=m1, cov=cov1)
+    w1 = pi * pt2
+    w2 = (1-pi) * pt1
+    eval1 = w1/(w1+w2)
+
+    return(eval1)
+    
+# Maximization step
+def Mstep(eval1):
+    num_mu1,din_mu1,num_mu2,din_mu2=0,0,0,0
+
+    for i in range(0,len(d)):
+        num_mu1 += (1-eval1[i]) * d[i]
+        din_mu1 += (1-eval1[i])
+
+        num_mu2 += eval1[i] * d[i]
+        din_mu2 += eval1[i]
+
+    mu1 = num_mu1/din_mu1
+    mu2 = num_mu2/din_mu2
+
+    num_s1,din_s1,num_s2,din_s2=0,0,0,0
+    for i in range(0,len(d)):
+
+        q1 = np.matrix(d[i]-mu1)
+        num_s1 += (1-eval1[i]) * np.dot(q1.T, q1)
+        din_s1 += (1-eval1[i])
+
+        q2 = np.matrix(d[i]-mu2)
+        num_s2 += eval1[i] * np.dot(q2.T, q2)
+        din_s2 += eval1[i]
+
+    s1 = num_s1/din_s1
+    s2 = num_s2/din_s2
+
+    pi = sum(eval1)/len(d)
+    
+    lis2=[mu1,mu2,s1,s2,pi]
+    return(lis2)
