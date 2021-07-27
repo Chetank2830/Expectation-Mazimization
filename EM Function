@@ -1,0 +1,31 @@
+#function to plot EM
+def plot(lis1):
+    mu1=lis1[0]
+    mu2=lis1[1]
+    s1=lis1[2]
+    s2=lis1[3]
+    Z1 = multivariate_normal(mu1, s1)  
+    Z2 = multivariate_normal(mu2, s2)
+
+    pos = np.empty(X.shape + (2,))                # a new array of given shape and type, without initializing entries
+    pos[:, :, 0] = X; pos[:, :, 1] = Y   
+
+    plt.figure(figsize=(10,10))                                                          # creating the figure and assigning the size
+    plt.scatter(d[:,0], d[:,1], marker='o')     
+    plt.contour(X, Y, Z1.pdf(pos), colors="r" ,alpha = 0.5) 
+    plt.contour(X, Y, Z2.pdf(pos), colors="b" ,alpha = 0.5) 
+    plt.axis('equal')                                                                  # making both the axis equal
+    plt.xlabel('X-Axis', fontsize=16)                                                  # X-Axis
+    plt.ylabel('Y-Axis', fontsize=16)                                                  # Y-Axis
+    plt.grid()                                                                         # displaying gridlines
+    plt.show()
+  
+  
+  #Calling function till convergence happens 
+    iterations = 20
+lis1=[m1,m2,cov1,cov2,pi]
+for i in range(0,iterations):
+    lis2 = Mstep(Estep(lis1))
+    lis1=lis2
+    if(i==0 or i == 4 or i == 9 or i == 14 or i == 19):
+        plot(lis1)
